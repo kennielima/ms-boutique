@@ -8,6 +8,7 @@ import cart from '@/images/cart.svg';
 import nav from '@/images/nav.svg';
 import close from '@/images/close.svg';
 import search from '@/images/search.svg';
+import Link from "next/link";
 // import gsap from 'gsap';
 // import { ScrollTrigger } from "gsap/ScrollTrigger";
 // gsap.registerPlugin(ScrollTrigger);
@@ -38,7 +39,7 @@ export default function Navbar() {
                     :
                     "hidden md:flex md:gap-6 lg:gap-12 cursor-pointer"}>
 
-                    <p>Home</p>
+                    <Link href='/'><p>Home</p></Link>
                     <div className="relative">
                         <div className="flex gap-2">
                             <span>Shop</span>
