@@ -39,25 +39,27 @@ export default function Navbar() {
                     :
                     "hidden md:flex md:gap-6 lg:gap-12 cursor-pointer"}>
 
-                    <Link href='/'><p>Home</p></Link>
+                    <Link href='/'>
+                        <p>Home</p>
+                    </Link>
                     <div className="relative">
                         <div className="flex gap-2">
                             <span>Shop</span>
-                            <Image src={caret} onClick={()=>setOpenShop(!openShop)} alt="caret" height={10} width={10} />
+                            <Image src={caret} onClick={() => setOpenShop(!openShop)} alt="caret" height={10} width={10} />
                         </div>
-                       {openShop &&
-                        <div className="absolute top-12 w-auto h-auto p-10 bg-white">
-                            <ul className="grid gap-4 text-lg">
-                                <li>Sale</li>
-                                <li>Tops</li>
-                                <li>Bottoms</li>
-                                <li>Dresses</li>
-                                <li>Co-ords</li>
-                                <li>Jumpsuits</li>
-                                <li>Shoes</li>
-                                <li>Accessories</li>
-                            </ul>
-                        </div>}
+                        {openShop &&
+                            <div className="absolute top-12 w-auto h-auto p-10 bg-white">
+                                <ul className="grid gap-4 text-lg">
+                                    <li>Sale</li>
+                                    <li>Tops</li>
+                                    <li>Bottoms</li>
+                                    <li>Dresses</li>
+                                    <li>Co-ords</li>
+                                    <li>Jumpsuits</li>
+                                    <li>Shoes</li>
+                                    <li>Accessories</li>
+                                </ul>
+                            </div>}
                     </div>
                     <p>Locations</p>
                     <p className="md:pb-0 pb-6">Contact</p>
@@ -68,7 +70,9 @@ export default function Navbar() {
                 <div className="flex w-full py-2 md:py-0 md:w-auto justify-between md:justify-center items-center md:gap-6 lg:gap-12">
 
                     {/* LOGO */}
-                    <Image src={logo} alt="logo" height={90} width={90} className="h-16 md:h-24 cursor-pointer" />
+                    <Link href='/'>
+                        <Image src={logo} alt="logo" height={90} width={90} className="h-16 md:h-24 cursor-pointer" />
+                    </Link>
 
                     {/* div2 */}
                     <div className="flex items-center md:gap-6 lg:gap-12 cursor-pointer">
