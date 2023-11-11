@@ -4,7 +4,7 @@ import 'swiper/swiper-bundle.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { useState, useEffect } from 'react';
-import { collection, getDocs, onSnapshot, query } from "firebase/firestore";
+import { DocumentReference, collection, doc, onSnapshot, query, setDoc } from "firebase/firestore";
 import { db } from './firebase';
 import Link from 'next/link';
 
@@ -13,7 +13,8 @@ import Link from 'next/link';
 type latests = {
     dress: string,
     image: string,
-    price: number
+    price: number,
+    id: string
 }
 
 
@@ -45,10 +46,15 @@ function Latest() {
 
     useEffect(() => {
         const q = query(collection(db, 'latestdress'))
+
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             let latestitems: latests[] = [];
-            querySnapshot.forEach((doc) => {
-                latestitems.push({ ...doc.data() } as latests)
+
+            querySnapshot.forEach((docc) => {
+                const docRef = doc(db, 'latestdress', docc.id);
+                setDoc(docRef, { ...docc.data(), id: docc.id })
+
+                latestitems.push({ ...docc.data(), id: docc.id } as latests)
             });
             setLATEST(latestitems)
             return () => unsubscribe();
@@ -59,8 +65,11 @@ function Latest() {
         const q = query(collection(db, 'topsellers'))
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             let topsellitems: latests[] = [];
-            querySnapshot.forEach((doc) => {
-                topsellitems.push({ ...doc.data() as latests })
+            querySnapshot.forEach((docc) => {
+                const docRef = doc(db, 'topsellers', docc.id);
+                setDoc(docRef, { ...docc.data(), id: docc.id })
+
+                topsellitems.push({ ...docc.data() as latests })
             });
             setTOPSELL(topsellitems)
             return () => unsubscribe();
@@ -73,9 +82,9 @@ function Latest() {
                 <h1 className='text-4xl'>Latest Arrivals</h1>
                 <Swiper modules={[Navigation]} className='flex gap-4 mb-20 mt-8' spaceBetween={1} navigation breakpoints={breakpoints}>
 
-                    {LATEST.map(({ dress, image, price }: latests, index) => (
+                    {LATEST.map(({ dress, image, price, id }: latests, index) => (
                         <SwiperSlide key={Math.random()} className='w-auto min-w-fit text-xl'>
-                            <Link href={`/${dress}`}>
+                            <Link href={`/${id}`}>
                                 <Image src={image} alt='imgs' className='relative' height={300} width={300} />
                             </Link>
                             <Image
@@ -96,9 +105,9 @@ function Latest() {
             <main>
                 <h1 className='text-4xl'>Top Sellers</h1>
                 <Swiper modules={[Navigation]} className='flex gap-4 my-8' spaceBetween={1} navigation breakpoints={breakpoints}>
-                    {TOPSELL.map(({ dress, image, price }: latests, index) => (
+                    {TOPSELL.map(({ dress, image, price, id }: latests, index) => (
                         <SwiperSlide key={Math.random()} className='text-xl'>
-                            <Link href={`/${dress}`}>
+                            <Link href={`/${id}`}>
                                 <Image src={image} alt='imgs' className='relative' height={300} width={300} />
                             </Link>
                             <Image
