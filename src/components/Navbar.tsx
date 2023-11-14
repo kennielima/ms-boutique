@@ -84,19 +84,22 @@ export default function Navbar() {
                         </div>
 
                         {/* wishlist */}
-                        <div className="flex">
-                            <Image className="flex md:hidden" src={wish} alt="wish" height={20} width={20} />
-                            <span className="hidden md:flex">Wishlist</span>
-                            <span className="bg-slate-800 rounded-full ml-[-8px] md:ml-2 mb-8 md:mb-0 text-slate-100 px-2"> 0 </span>
-                        </div>
-
+                        <Link href='/wishlist'>
+                            <div className="flex">
+                                <Image className="flex md:hidden" src={wish} alt="wish" height={20} width={20} />
+                                <span className="hidden md:flex">Wishlist</span>
+                                <span className="bg-slate-800 rounded-full ml-[-8px] md:ml-2 mb-8 md:mb-0 text-slate-100 px-2"> 0 </span>
+                            </div>
+                        </Link>
+                        
                         {/* cart */}
-                        <div className="flex">
-                            <Image className="flex md:hidden" src={cart} alt="cart" height={20} width={20} />
-                            <span className="hidden md:flex">Cart</span>
-                            <span className="bg-slate-800 rounded-full  md:ml-2 ml-[-8px] mb-8 md:mb-0 text-slate-100 px-2"> 0 </span>
-                        </div>
-
+                        <Link href='/cart'>
+                            <div className="flex">
+                                <Image className="flex md:hidden" src={cart} alt="cart" height={20} width={20} />
+                                <span className="hidden md:flex">Cart</span>
+                                <span className="bg-slate-800 rounded-full  md:ml-2 ml-[-8px] mb-8 md:mb-0 text-slate-100 px-2"> 0 </span>
+                            </div>
+                        </Link>
                         {/* navbars */}
                         {!open &&
                             <Image

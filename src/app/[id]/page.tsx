@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import wish from '@/images/wishes.svg';
@@ -7,18 +7,24 @@ import wishes from '@/images/wishess.svg';
 import caret from '@/images/caret.svg';
 import { doc, getDoc } from "firebase/firestore";
 import { db } from '@/components/firebase';
+import { cartContext } from '@/components/ContextProvider';
+import { detail, latests } from '@/components/latestsInterface';
 
 function page() {
-    const dress = decodeURIComponent(useParams()?.dress as any);
-    let quantity: number = 1;
-    const [liked, setLiked] = useState(false)
-    const [size, setSize] = useState('small')
-    const [color, setColor] = useState('blue')
+    const dress = decodeURIComponent(useParams()?.id as any);
     const [ship, setShip] = useState(false)
     const [dimension, setDimension] = useState(false)
     const [sku, setSku] = useState(false)
     const [category, setCategory] = useState(false)
+    const [liked, setLiked] = useState(false)
+
+    // const [ITEM, setITEM] = useState<latests | undefined>(undefined);
+    // const [ITEM, setITEM] = useState<latests>({ dress: '', id: '', image: '', price: 0 });
     const [ITEM, setITEM] = useState<any>(null);
+    const [size, setSize] = useState<string>('small')
+    const [color, setColor] = useState<string>('blue')
+    const [quantity, setQuantity] = useState<number>(1)
+    const { addCart, removeCart } = useContext(cartContext);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,7 +41,21 @@ function page() {
         }
         fetchData();
     }, [dress]);
-    console.log(ITEM);
+    // console.log(ITEM);
+
+    let cartinfo: detail = {
+        ITEM: ITEM,
+        color: color,
+        size: size,
+        quantity: quantity,
+    };
+    // console.log(cartinfo);
+
+    const saveDetails = () => {
+        let cart = cartinfo;
+        addCart(cart);
+        // console.log('cart');
+    };
 
     return (
         <section>
@@ -44,7 +64,7 @@ function page() {
                     <Image
                         src={ITEM.image}
                         alt=''
-                        width={300}
+                        width={200}
                         height={200}
                         className='w-1/2'
                     />
@@ -80,6 +100,7 @@ function page() {
                                 <p className='font-normal text-slate-500'>Size</p>
                                 <div className='flex mt-6 gap-3'>
                                     <button
+                                        type="submit"
                                         className={size === 'small' ?
                                             'rounded-full bg-slate-800 text-white py-3 px-8'
                                             :
@@ -109,14 +130,17 @@ function page() {
                                 <p className='font-normal text-slate-500'>Quantity</p>
                                 <div className='flex mt-6 gap-3'>
                                     <button className='rounded-full bg-white text-slate-800 border-slate-400 border-[1px] py-2 px-4 flex gap-6 text-2xl'>
-                                        <span>-</span>
+                                        <span onClick={() => setQuantity(quantity - 1)}>-</span>
                                         <span>{quantity}</span>
-                                        <span onClick={() => quantity === quantity++}>+</span>
+                                        <span onClick={() => setQuantity(quantity + 1)}>+</span>
                                     </button>
                                 </div>
                             </div>
                             <div className='flex my-14 gap-8 items-center'>
-                                <button className='rounded-full bg-slate-800 text-white p-3 w-40 hover:bg-slate-100 hover:text-slate-500 hover:border-slate-400 hover:border-[1px] transition-all'>
+                                <button
+                                    className='rounded-full bg-slate-800 text-white p-3 w-40 hover:bg-slate-100 hover:text-slate-500 hover:border-slate-400 hover:border-[1px] transition-all'
+                                    onClick={() => saveDetails()}
+                                >
                                     Add to Cart
                                 </button>
                                 <button className='rounded-full bg-white text-slate-500 border-slate-400 border-[1px] p-3 w-40 hover:text-white hover:bg-slate-800 transition-all'>

@@ -7,15 +7,16 @@ import { useState, useEffect } from 'react';
 import { DocumentReference, collection, doc, onSnapshot, query, setDoc } from "firebase/firestore";
 import { db } from './firebase';
 import Link from 'next/link';
+import { latests } from './latestsInterface';
 
 // let LATEST: {image: any, dress: string}[];
 // let LATEST: (latest)[];
-type latests = {
-    dress: string,
-    image: string,
-    price: number,
-    id: string
-}
+// type latests = {
+//     dress: string,
+//     image: string,
+//     price: number,
+//     id: string
+// }
 
 
 // let Latests: (a: latest) => void
