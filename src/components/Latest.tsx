@@ -4,7 +4,7 @@ import 'swiper/swiper-bundle.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { useState, useEffect } from 'react';
-import { DocumentReference, collection, doc, onSnapshot, query, setDoc } from "firebase/firestore";
+import { collection, doc, onSnapshot, query, setDoc } from "firebase/firestore";
 import { db } from './firebase';
 import Link from 'next/link';
 import { latests } from './latestsInterface';

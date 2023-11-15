@@ -11,12 +11,11 @@ function page() {
     console.log(ctx.cart);
     const [quantity, setQuantity] = useState<number>(1)
 
-//     { ctx.cart.map(item) => (
-
+//     { ctx.cart.map(item) => 
 //     )
 // }
     return (
-        <div className='m-40 grid gap-8 px-4 text-slate-800 font-mono'>
+        <div className='m-40 grid gap-8 px-4 text-slate-800'>
             <div className='flex justify-between'>
                 <h1 className='text-4xl'>Your Cart</h1>
                 <p className='text-xl'>Continue Shopping</p>

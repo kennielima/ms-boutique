@@ -68,18 +68,18 @@ function page() {
                         height={200}
                         className='w-1/2'
                     />
-                    <div className='w-1/2 p-10'>
+                    <div className='w-1/2 p-4'>
                         <h1 className='text-4xl'>{ITEM.dress}</h1>
-                        <div className='flex gap-6 mt-6 text-xl font-normal'>
+                        <div className='flex gap-6 mt-4 text-xl font-normal'>
                             <p className='text-slate-500'>${ITEM.price}</p>
                             <p className='text-slate-700'>In Stock</p>
                         </div>
-                        <div className='my-14 text-xl'>
+                        <div className='my-8 text-xl'>
                             <p className='font-normal'>
                                 <span className='text-slate-500'>Color: </span>
                                 <span className='text-slate-700'>Blue</span>
                             </p>
-                            <div className='flex mt-6 gap-3'>
+                            <div className='flex mt-4 gap-3'>
                                 <button
                                     className={color === 'blue' ? 'rounded-full bg-slate-800 text-white py-3 px-8'
                                         :
@@ -96,9 +96,9 @@ function page() {
                                     White
                                 </button>
                             </div>
-                            <div className='my-14 text-lg'>
+                            <div className='my-8 text-lg'>
                                 <p className='font-normal text-slate-500'>Size</p>
-                                <div className='flex mt-6 gap-3'>
+                                <div className='flex mt-4 gap-3'>
                                     <button
                                         type="submit"
                                         className={size === 'small' ?
@@ -126,9 +126,9 @@ function page() {
                                     </button>
                                 </div>
                             </div>
-                            <div className='my-14 text-lg'>
+                            <div className='my-8 text-lg'>
                                 <p className='font-normal text-slate-500'>Quantity</p>
-                                <div className='flex mt-6 gap-3'>
+                                <div className='flex mt-4 gap-3'>
                                     <button className='rounded-full bg-white text-slate-800 border-slate-400 border-[1px] py-2 px-4 flex gap-6 text-2xl'>
                                         <span onClick={() => setQuantity(quantity - 1)}>-</span>
                                         <span>{quantity}</span>
@@ -136,7 +136,7 @@ function page() {
                                     </button>
                                 </div>
                             </div>
-                            <div className='flex my-14 gap-8 items-center'>
+                            <div className='flex my-8 gap-8 items-center'>
                                 <button
                                     className='rounded-full bg-slate-800 text-white p-3 w-40 hover:bg-slate-100 hover:text-slate-500 hover:border-slate-400 hover:border-[1px] transition-all'
                                     onClick={() => saveDetails()}

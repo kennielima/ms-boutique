@@ -17,6 +17,12 @@ export default function Navbar() {
     const [open, setOpen] = useState(false)
     const [openShop, setOpenShop] = useState(false)
 
+    const closeAll = () => {
+        open && setOpen(!open);
+        openShop && setOpenShop(!openShop)
+    }
+
+
     // const boxRef = useRef<HTMLDivElement>(null);
 
     // useEffect(() => {
@@ -39,38 +45,59 @@ export default function Navbar() {
                     :
                     "hidden md:flex md:gap-6 lg:gap-12 cursor-pointer"}>
 
-                    <Link href='/'>
+                    <Link href='/' onClick={closeAll}>
                         <p>Home</p>
                     </Link>
                     <div className="relative">
                         <div className="flex gap-2">
-                            <span>Shop</span>
-                            <Image src={caret} onClick={() => setOpenShop(!openShop)} alt="caret" height={10} width={10} />
+                            <Link href='/shop'><span>Shop</span></Link>
+                            <Image
+                                src={caret}
+                                onClick={() => setOpenShop(!openShop)}
+                                className={openShop ? 'rotate-180' : ''}
+                                alt="caret" height={10} width={10}
+                            />
                         </div>
                         {openShop &&
                             <div className="absolute top-12 w-auto h-auto p-10 bg-white">
-                                <ul className="grid gap-4 text-lg">
-                                    <li>Sale</li>
-                                    <li>Tops</li>
-                                    <li>Bottoms</li>
-                                    <li>Dresses</li>
-                                    <li>Co-ords</li>
-                                    <li>Jumpsuits</li>
-                                    <li>Shoes</li>
-                                    <li>Accessories</li>
+                                <ul className="grid gap-6 text-lg">
+                                    <Link href='/shop' onClick={closeAll}>
+                                        <li>Sale</li>
+                                    </Link>
+                                    <Link href='/shop' onClick={closeAll}>
+                                        <li>Tops</li>
+                                    </Link>
+                                    <Link href='/shop' onClick={closeAll}>
+                                        <li>Bottoms</li>
+                                    </Link>
+                                    <Link href='' onClick={closeAll}>
+                                        <li>Dresses</li>
+                                    </Link>
+                                    <Link href='' onClick={closeAll}>
+                                        <li>Co-ords</li>
+                                    </Link>
+                                    <Link href='' onClick={closeAll}>
+                                        <li>Jumpsuits</li>
+                                    </Link>
+                                    {/* <li>Shoes</li>
+                                    <li>Accessories</li> */}
                                 </ul>
                             </div>}
                     </div>
-                    <p>Locations</p>
-                    <p className="md:pb-0 pb-6">Contact</p>
-
+                    <Link href='/location' onClick={closeAll}>
+                        <p>Locations</p>
+                    </Link>
+                    <Link href='/contact' onClick={closeAll}
+                    >
+                        <p className="md:pb-0 pb-6">Contact</p>
+                    </Link>
                 </div>
 
                 {/* NAV py-2 md:py-0 */}
                 <div className="flex w-full py-2 md:py-0 md:w-auto justify-between md:justify-center items-center md:gap-6 lg:gap-12">
 
                     {/* LOGO */}
-                    <Link href='/'>
+                    <Link href='/' onClick={closeAll}>
                         <Image src={logo} alt="logo" height={90} width={90} className="h-16 md:h-24 cursor-pointer" />
                     </Link>
 
@@ -84,16 +111,28 @@ export default function Navbar() {
                         </div>
 
                         {/* wishlist */}
-                        <Link href='/wishlist'>
+                        <Link
+                            href='/wishlist'
+                            onClick={() => {
+                                open && setOpen(!open);
+                                openShop && setOpenShop(!openShop)
+                            }}
+                        >
                             <div className="flex">
                                 <Image className="flex md:hidden" src={wish} alt="wish" height={20} width={20} />
                                 <span className="hidden md:flex">Wishlist</span>
                                 <span className="bg-slate-800 rounded-full ml-[-8px] md:ml-2 mb-8 md:mb-0 text-slate-100 px-2"> 0 </span>
                             </div>
                         </Link>
-                        
+
                         {/* cart */}
-                        <Link href='/cart'>
+                        <Link
+                            href='/cart'
+                            onClick={() => {
+                                open && setOpen(!open);
+                                openShop && setOpenShop(!openShop)
+                            }}
+                        >
                             <div className="flex">
                                 <Image className="flex md:hidden" src={cart} alt="cart" height={20} width={20} />
                                 <span className="hidden md:flex">Cart</span>
