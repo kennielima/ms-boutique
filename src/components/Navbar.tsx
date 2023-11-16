@@ -50,7 +50,7 @@ export default function Navbar() {
                     </Link>
                     <div className="relative">
                         <div className="flex gap-2">
-                            <Link href='/shop'><span>Shop</span></Link>
+                            <Link href='/shop' onClick={closeAll}><span>Shop</span></Link>
                             <Image
                                 src={caret}
                                 onClick={() => setOpenShop(!openShop)}
@@ -59,27 +59,25 @@ export default function Navbar() {
                             />
                         </div>
                         {openShop &&
-                            <div className="absolute top-12 w-auto h-auto p-10 bg-white">
-                                <ul className="grid gap-6 text-lg">
+                            <div className="border-2 border-slate-200 rounded absolute top-14 w-auto h-auto p-16 bg-white">
+                                <ul className="grid gap-8 text-xl">
                                     <Link href='/shop' onClick={closeAll}>
-                                        <li>Sale</li>
+                                        <li>Sales</li>
                                     </Link>
-                                    <Link href='/top' onClick={closeAll}>
+                                    <Link href='/tops' onClick={closeAll}>
                                         <li>Tops</li>
                                     </Link>
-                                    <Link href='/shop' onClick={closeAll}>
+                                    <Link href='/bottoms' onClick={closeAll}>
                                         <li>Bottoms</li>
                                     </Link>
-                                    <Link href='' onClick={closeAll}>
+                                    <Link href='dresses' onClick={closeAll}>
                                         <li>Dresses</li>
                                     </Link>
-                                    <Link href='' onClick={closeAll}>
+                                    <Link href='coords' onClick={closeAll}>
                                         <li>Co-ords</li>
                                     </Link>
-                                    <Link href='' onClick={closeAll}>
-                                        <li>Jumpsuits</li>
-                                    </Link>
-                                    {/* <li>Shoes</li>
+                                    {/* <li>Jumpsuits</li>
+                                    <li>Shoes</li>
                                     <li>Accessories</li> */}
                                 </ul>
                             </div>}
@@ -87,8 +85,7 @@ export default function Navbar() {
                     <Link href='/location' onClick={closeAll}>
                         <p>Locations</p>
                     </Link>
-                    <Link href='/contact' onClick={closeAll}
-                    >
+                    <Link href='/contact' onClick={closeAll}>
                         <p className="md:pb-0 pb-6">Contact</p>
                     </Link>
                 </div>

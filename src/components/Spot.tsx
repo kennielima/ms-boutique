@@ -5,6 +5,7 @@ import m2 from '@/images/mm1.jpeg'
 import m3 from '@/images/mm6.webp'
 import m4 from '@/images/m2.jpeg'
 import m5 from '@/images/mm5.jpeg'
+import Link from 'next/link';
 
 export default function Spot() {
     return (
@@ -26,24 +27,29 @@ export default function Spot() {
                         <button className="py-2 px-6 my-6 border-none rounded-full text-lg font-light bg-white text-black hover:bg-black hover:text-white transition-all">Shop Now</button>
                     </div>
                 </div>
-                <div className='transition-all  h-[22.5rem] duration-500 relative bg-black'>
-                    <Image src={m3} alt='img' className='h-[22.5rem] w-full object-cover hover:opacity-100 opacity-50 transition-all duration-500' />
-                    <div className='px-8 absolute bottom-10'>
-                        <h1 className='text-3xl text-white'>Tops</h1>
-                        <button className="py-2 px-6 my-6 border-none rounded-full text-lg font-light bg-white text-black hover:bg-black hover:text-white transition-all">Shop Now</button>
+                <Link href='/tops'>
+                    <div className='transition-all  h-[22.5rem] duration-500 relative bg-black'>
+                        <Image src={m3} alt='img' className='h-[22.5rem] w-full object-cover hover:opacity-100 opacity-50 transition-all duration-500' />
+                        <div className='px-8 absolute bottom-10'>
+                            <h1 className='text-3xl text-white'>Tops</h1>
+                            <button className="py-2 px-6 my-6 border-none rounded-full text-lg font-light bg-white text-black hover:bg-black hover:text-white transition-all">Shop Now</button>
+                        </div>
                     </div>
-                </div>
+                </Link>
             </div>
 
 
             <div className='w-auto md:w-1/3 gap-4 grid h-full'>
-                <div className='transition-all duration-500 h-[22.5rem] w-full relative bg-black'>
-                    <Image src={m4} alt='img' className='h-[22.5rem] w-full object-cover hover:opacity-100 opacity-50 transition-all duration-500' />
-                    <div className='px-8 absolute bottom-10'>
-                        <h1 className='text-3xl text-white'>Bottoms</h1>
-                        <button className="py-2 px-6 my-6 border-none rounded-full text-lg font-light bg-white text-black hover:bg-black hover:text-white transition-all">Shop Now</button>
+                <Link href='/bottoms'>
+                    <div className='transition-all duration-500 h-[22.5rem] w-full relative bg-black'>
+                        <Image src={m4} alt='img' className='h-[22.5rem] w-full object-cover hover:opacity-100 opacity-50 transition-all duration-500' />
+                        <div className='px-8 absolute bottom-10'>
+                            <h1 className='text-3xl text-white'>Bottoms</h1>
+
+                            <button className="py-2 px-6 my-6 border-none rounded-full text-lg font-light bg-white text-black hover:bg-black hover:text-white transition-all">Shop Now</button>
+                        </div>
                     </div>
-                </div>
+                </Link>
                 <div className='transition-all  h-[22.5rem] duration-500 relative bg-black'>
                     <Image src={m5} alt='img' className='h-[22.5rem] w-full object-cover hover:opacity-100 opacity-50 transition-all duration-500' />
                     <div className='px-8 absolute bottom-10'>
