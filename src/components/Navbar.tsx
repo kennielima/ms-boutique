@@ -64,7 +64,7 @@ export default function Navbar() {
                                     <Link href='/shop' onClick={closeAll}>
                                         <li>Sale</li>
                                     </Link>
-                                    <Link href='/shop' onClick={closeAll}>
+                                    <Link href='/top' onClick={closeAll}>
                                         <li>Tops</li>
                                     </Link>
                                     <Link href='/shop' onClick={closeAll}>

@@ -70,6 +70,5 @@ function page() {
         </div>
     )
 }
-"/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fm3.1d06ecc4.jpeg&w=384&q=75"
-"/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fm2.0e8fa2c0.jpeg&w=384&q=75"
+
 export default page
