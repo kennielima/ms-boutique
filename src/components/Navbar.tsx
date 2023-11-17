@@ -61,9 +61,7 @@ export default function Navbar() {
                         {openShop &&
                             <div className="border-2 border-slate-200 rounded absolute top-14 w-auto h-auto p-16 bg-white">
                                 <ul className="grid gap-8 text-xl">
-                                    <Link href='/shop' onClick={closeAll}>
-                                        <li>Sales</li>
-                                    </Link>
+
                                     <Link href='/tops' onClick={closeAll}>
                                         <li>Tops</li>
                                     </Link>
@@ -75,6 +73,9 @@ export default function Navbar() {
                                     </Link>
                                     <Link href='coords' onClick={closeAll}>
                                         <li>Co-ords</li>
+                                    </Link>
+                                    <Link href='/shop' onClick={closeAll}>
+                                        <li>Sales</li>
                                     </Link>
                                     {/* <li>Jumpsuits</li>
                                     <li>Shoes</li>

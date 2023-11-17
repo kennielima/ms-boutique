@@ -10,6 +10,15 @@ import Link from 'next/link';
 
 function page() {
     const [TOPS, setTOPS] = useState<latests[]>([]);
+    const [likedItems, setLikedItems] = useState(TOPS.map(() => false));
+
+    const toggleLike = (index: number) => {
+        const newLikedItems = [...likedItems];
+        newLikedItems[index] = !newLikedItems[index];
+        setLikedItems(newLikedItems);
+        console.log(likedItems)
+    };
+
 
     useEffect(() => {
         const q = query(collection(db, 'tops'))
@@ -29,9 +38,9 @@ function page() {
     }, [])
 
     return (
-        <div className='mx-28 my-16 font-mono'>
-            <div className='flex justify-between'>
-                <p>Showing 1–12 of 4 results</p>
+        <div className='w-5/6 mx-auto my-12 font-mono'>
+            <div className='grid md:flex gap-4 mb-4 md:justify-between justify-center items-center'>
+            <p>Showing 1–8 of 1 results</p>
                 <div>
                     <select className='border-[1.5px] border-slate-200 p-3 rounded-full'>
                         <option value='default'>Default sorting</option>
@@ -43,22 +52,23 @@ function page() {
                     </select>
                 </div>
             </div>
-            <div className='grid grid-cols-fluid my-8'>
-                {TOPS.map(({ dress, image, price, id }: latests) => (
+            <div className='grid grid-cols-fluid my-8 ml-[6rem] sm:ml-16 justify-center'>
+                {TOPS.map(({ dress, image, price, id }: latests, index) => (
 
-                    <div>
+                    <div className='relative mb-4 w-fit'>
                         <Link href={`${id}`}>
-                        <Image src={image} alt='imgs' className='relative' height={200} width={200} />
+                            <Image src={image} alt='imgs' height={200} width={200} />
                         </Link>
                         <Image
-                            src='/images/wishess.svg'
+                            src={likedItems[index] ? '/images/wishess.svg' : '/images/wishes.svg'}
+                            onClick={() => toggleLike(index)}
                             alt='love'
                             height={50}
                             width={50}
-                            className='h-10 w-10 bg-white p-2 rounded-full left-4'
+                            className='h-10 w-10 bg-white p-2 absolute bottom-20 rounded-full left-4'
                         />
-                        <p className='font-light my-2'>{dress}</p>
-                        <p className='text-slate-500'>{price}</p>
+                        <p className='font-light my-2 pr-5'>{dress}</p>
+                        <p className='text-slate-500'>${price}</p>
                     </div>
                 ))}
 

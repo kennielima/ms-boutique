@@ -10,6 +10,15 @@ import Link from 'next/link';
 
 function page() {
     const [BOTTOMS, setBOTTOMS] = useState<latests[]>([]);
+    const [likedItems, setLikedItems] = useState(BOTTOMS.map(() => false));
+
+    const toggleLike = (index: number) => {
+        const newLikedItems = [...likedItems];
+        newLikedItems[index] = !newLikedItems[index];
+        setLikedItems(newLikedItems);
+        console.log(likedItems)
+    };
+
 
     useEffect(() => {
         const q = query(collection(db, 'bottoms'))
@@ -30,8 +39,8 @@ function page() {
 
     return (
         <div className='mx-28 my-16 font-mono'>
-            <div className='flex justify-between'>
-                <p>Showing 1–12 of 4 results</p>
+            <div className='grid md:flex gap-4 justify-between items-center'>
+                <p>Showing 1–8 of 1 results</p>
                 <div>
                     <select className='border-[1.5px] border-slate-200 p-3 rounded-full'>
                         <option value='default'>Default sorting</option>
@@ -44,21 +53,22 @@ function page() {
                 </div>
             </div>
             <div className='grid grid-cols-fluid my-8'>
-                {BOTTOMS.map(({ dress, image, price, id }: latests) => (
+                {BOTTOMS.map(({ dress, image, price, id }: latests, index) => (
 
-                    <div>
+                    <div className='relative'>
                         <Link href={`${id}`}>
-                        <Image src={image} alt='imgs' className='relative' height={200} width={200} />
+                            <Image src={image} alt='imgs' height={200} width={200} />
                         </Link>
                         <Image
-                            src='/images/wishess.svg'
+                            src={likedItems[index] ? '/images/wishess.svg' : '/images/wishes.svg'}
+                            onClick={() => toggleLike(index)}
                             alt='love'
                             height={50}
                             width={50}
-                            className='h-10 w-10 bg-white p-2 rounded-full left-4'
+                            className='h-10 w-10 bg-white p-2 absolute bottom-24 rounded-full left-4'
                         />
                         <p className='font-light my-2 pr-8'>{dress}</p>
-                        <p className='text-slate-500'>{price}</p>
+                        <p className='text-slate-500'>${price}</p>
                     </div>
                 ))}
 
