@@ -1,13 +1,16 @@
+import Link from "next/link";
 
 export default function Home() {
   return (
     <div className="bg-cats bg-cover bg-center h-screen flex items-center justify-center">
-    {/* style={{ backgroundImage: "url('images/hero.png')" }} */}
+      {/* style={{ backgroundImage: "url('images/hero.png')" }} */}
       <div className="px-10 md:w-3/4 h-auto text-white text-center">
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl my-4">Say Hello To Our Latest Arrivals</h1>
         <p>Discover our latest arrivals.</p>
         <p>Free shipping in the US for any purchase over $200.</p>
-        <button className="px-6 py-2 m-6 border-none rounded-full text-lg font-light bg-white text-black hover:bg-black hover:text-white transition-all">Shop Now</button>
+        <Link href='/shop'>
+          <button className="px-6 py-2 m-6 border-none rounded-full text-lg font-light bg-white text-black hover:bg-black hover:text-white transition-all">Shop Now</button>
+        </Link>
       </div>
     </div>
   )
