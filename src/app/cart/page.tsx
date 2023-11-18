@@ -15,7 +15,7 @@ function page() {
 //     )
 // }
     return (
-        <div className='m-40 grid gap-8 px-4 text-slate-800'>
+        <div className='w-[85%] mx-auto my-20 grid gap-8 px-4 text-slate-800'>
             <div className='flex justify-between'>
                 <h1 className='text-4xl'>Your Cart</h1>
                 <p className='text-xl'>Continue Shopping</p>
