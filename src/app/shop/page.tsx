@@ -1,18 +1,85 @@
+"use client"
+import Image from 'next/image'
 import React from 'react'
-import Coord from '../coords/page';
-import Tops from '../tops/page';
-import Dresses from '../dresses/page';
-import Bottoms from '../bottoms/page';
+import { useState, useEffect } from 'react';
+import { collection, onSnapshot, query } from "firebase/firestore";
+import { db } from '@/components/firebase';
+// import Link from 'next/link';
+import { latests } from '@/components/latestsInterface';
+import Link from 'next/link';
 
 function page() {
-  return (
-    <section>
-        <Coord />
-        <Tops />
-        <Bottoms />
-        <Dresses />
-    </section>
-  )
+    const [ALL, setALL] = useState<latests[]>([]);
+    const [likedItems, setLikedItems] = useState(ALL.map(() => false));
+
+    const toggleLike = (index: number) => {
+        const newLikedItems = [...likedItems];
+        newLikedItems[index] = !newLikedItems[index];
+        setLikedItems(newLikedItems);
+        console.log(likedItems)
+    };
+
+
+    useEffect(() => {
+        const collections = ['dresses', 'coords', 'tops', 'bottoms'];
+        const unsubscribeFunctions: any = [];
+
+        collections.forEach((c) => {
+            const q = query(collection(db, c))
+
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                let items: latests[] = [];
+
+                querySnapshot.forEach((docc) => {
+                    items.push({ ...docc.data(), id: docc.id } as latests)
+                });
+                setALL((prevALL) => [...prevALL, ...items]);
+            })
+            unsubscribeFunctions.push(unsubscribe)
+        })
+        return () => {
+            unsubscribeFunctions.forEach((unsubscribe: any) => unsubscribe());
+        };
+    }, [])
+
+    return (
+        <div className='mx-28 my-16 font-mono'>
+            <div className='flex justify-between'>
+                <p>Showing 1–12 of 4 results</p>
+                <div>
+                    <select className='border-[1.5px] border-slate-200 p-3 rounded-full'>
+                        <option value='default'>Default sorting</option>
+                        <option value='pop'>Sort by popularity</option>
+                        <option value='av'>Sort by Average rating</option>
+                        <option value='latest'>Sort by Latest</option>
+                        <option value='h2l'>Sort by price: high to low</option>
+                        <option value='l2h'>Sort by price: low to high</option>
+                    </select>
+                </div>
+            </div>
+            <div className='grid grid-cols-fluid my-8'>
+                {ALL.map(({ dress, image, price, id }: latests, index) => (
+
+                    <div>
+                        <Link href={`${id}`}>
+                            <Image src={image} alt='imgs' className='relative top-12 -z-10' height={200} width={200} />
+                        </Link>
+                        <Image
+                            src={likedItems[index] ? '/images/wishess.svg' : '/images/wishes.svg'}
+                            onClick={() => toggleLike(index)}
+                            alt='love'
+                            height={50}
+                            width={50}
+                            className='h-10 w-10 bg-white p-2 rounded-full left-8'
+                        />
+                        <p className='font-light my-2 pr-8'>{dress}</p>
+                        <p className='text-slate-500'>${price}</p>
+                    </div>
+                ))}
+
+            </div>
+        </div>
+    )
 }
 
 export default page

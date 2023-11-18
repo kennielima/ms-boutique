@@ -28,16 +28,22 @@ function page() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const docRef = doc(db, 'latestdress', dress);
-            const docRef2 = doc(db, 'topsellers', dress);
+            const docRefs = [
+                doc(db, 'latestdress', dress),
+                doc(db, 'topsellers', dress),
+                doc(db, 'dresses', dress),
+                doc(db, 'tops', dress),
+                doc(db, 'bottoms', dress),
+                doc(db, 'coords', dress),
 
+        ]
+        for (const docRef of docRefs){
             const docSnap = await getDoc(docRef);
-            const docSnap2 = await getDoc(docRef2);
-
-            docSnap.exists() ? setITEM(docSnap.data())
-                :
-                (docSnap2.exists() && setITEM(docSnap2.data())
-                )
+                docSnap.exists() && setITEM(docSnap.data())
+        }
+        // const docRef2 = doc(db, 'topsellers', dress);
+        //     const docSnap2 = await getDoc(docRef2);
+            // docSnap.exists() ? setITEM(docSnap.data()) :)
         }
         fetchData();
     }, [dress]);
@@ -60,15 +66,15 @@ function page() {
     return (
         <section>
             {ITEM && (
-                <div className='mx-20 lg:mx-16 grid gap-8 lg:flex'>
+                <div className='mx-auto w-[90%] lg:mx-16 grid gap-8 lg:flex'>
                     <Image
                         src={ITEM.image}
                         alt=''
                         width={200}
                         height={200}
-                        className='w-1/2'
+                        className='w-3/4 lg:w-1/2'
                     />
-                    <div className='w-1/2 p-4'>
+                    <div className='w-3/4 lg:w-1/2 p-4'>
                         <h1 className='text-4xl'>{ITEM.dress}</h1>
                         <div className='flex gap-6 mt-4 text-xl font-normal'>
                             <p className='text-slate-500'>${ITEM.price}</p>
@@ -102,25 +108,25 @@ function page() {
                                     <button
                                         type="submit"
                                         className={size === 'small' ?
-                                            'rounded-full bg-slate-800 text-white py-3 px-8'
+                                            'rounded-full bg-slate-800 text-white py-3 px-6'
                                             :
-                                            'rounded-full bg-white text-slate-500 border-slate-400 border-[1px] py-3 px-8'}
+                                            'rounded-full bg-white text-slate-500 border-slate-400 border-[1px] py-3 px-6'}
                                         onClick={() => setSize('small')}>
                                         Small
                                     </button>
                                     <button
                                         className={size === 'medium' ?
-                                            'rounded-full bg-slate-800 text-white py-3 px-8'
+                                            'rounded-full bg-slate-800 text-white py-3 px-6'
                                             :
-                                            'rounded-full bg-white text-slate-500 border-slate-400 border-[1px] py-3 px-8'}
+                                            'rounded-full bg-white text-slate-500 border-slate-400 border-[1px] py-3 px-6'}
                                         onClick={() => setSize('medium')}>
                                         Medium
                                     </button>
                                     <button
                                         className={size === 'large' ?
-                                            'rounded-full bg-slate-800 text-white py-3 px-8'
+                                            'rounded-full bg-slate-800 text-white py-3 px-6'
                                             :
-                                            'rounded-full bg-white text-slate-500 border-slate-400 border-[1px] py-3 px-8'}
+                                            'rounded-full bg-white text-slate-500 border-slate-400 border-[1px] py-3 px-6'}
                                         onClick={() => setSize('large')}>
                                         Large
                                     </button>
@@ -138,7 +144,7 @@ function page() {
                             </div>
                             <div className='flex my-8 gap-8 items-center'>
                                 <button
-                                    className='rounded-full bg-slate-800 text-white p-3 w-40 hover:bg-slate-100 hover:text-slate-500 hover:border-slate-400 hover:border-[1px] transition-all'
+                                    className='rounded-full bg-slate-800 text-white p-3 w-48 hover:bg-slate-100 hover:text-slate-500 hover:border-slate-400 hover:border-[1px] transition-all'
                                     onClick={() => saveDetails()}
                                 >
                                     Add to Cart
@@ -157,7 +163,7 @@ function page() {
                             </div>
                         </div>
                         <hr className='border-slate-400' />
-                        <div className='my-6 text-lg font-light text-black pr-2'>
+                        <div className='my-6 text-lg font-light w-full text-black pr-2'>
                             <div className='flex justify-between '>
                                 <p>Shipping and Returns</p>
                                 <Image src={caret}

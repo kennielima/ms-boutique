@@ -74,7 +74,7 @@ export default function Navbar() {
                                     <Link href='coords' onClick={closeAll}>
                                         <li>Co-ords</li>
                                     </Link>
-                                    <Link href='/shop' onClick={closeAll}>
+                                    <Link href='/sales' onClick={closeAll}>
                                         <li>Sales</li>
                                     </Link>
                                     {/* <li>Jumpsuits</li>

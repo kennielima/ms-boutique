@@ -2,30 +2,35 @@
 import Image from 'next/image'
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { collection, doc, onSnapshot, query, setDoc } from "firebase/firestore";
+import { collection, onSnapshot, query } from "firebase/firestore";
 import { db } from '@/components/firebase';
 // import Link from 'next/link';
 import { latests } from '@/components/latestsInterface';
 import Link from 'next/link';
 
 function page() {
-    const [BOTTOMS, setBOTTOMS] = useState<latests[]>([]);
+    const [ALL, setALL] = useState<latests[]>([]);
 
     useEffect(() => {
-        const q = query(collection(db, 'bottoms'))
+        const collections = ['dresses', 'coords', 'tops', 'bottoms'];
+        const unsubscribeFunctions: any = [];
 
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            let bottoms: latests[] = [];
+        collections.forEach((c) => {
+            const q = query(collection(db, c))
 
-            querySnapshot.forEach((docc) => {
-                const docRef = doc(db, 'bottoms', docc.id);
-                setDoc(docRef, { ...docc.data(), id: docc.id })
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                let items: latests[] = [];
 
-                bottoms.push({ ...docc.data(), id: docc.id } as latests)
-            });
-            setBOTTOMS(bottoms)
-            return () => unsubscribe();
+                querySnapshot.forEach((docc) => {
+                    items.push({ ...docc.data(), id: docc.id } as latests)
+                });
+                setALL((prevALL) => [...prevALL, ...items]);
+            })
+            unsubscribeFunctions.push(unsubscribe)
         })
+        return () => {
+            unsubscribeFunctions.forEach((unsubscribe: any) => unsubscribe());
+        };
     }, [])
 
     return (
@@ -44,11 +49,11 @@ function page() {
                 </div>
             </div>
             <div className='grid grid-cols-fluid my-8'>
-                {BOTTOMS.map(({ dress, image, price, id }: latests) => (
+                {ALL.map(({ dress, image, price, id }: latests) => (
 
                     <div>
                         <Link href={`${id}`}>
-                        <Image src={image} alt='imgs' className='relative' height={200} width={200} />
+                            <Image src={image} alt='imgs' className='relative' height={200} width={200} />
                         </Link>
                         <Image
                             src='/images/wishess.svg'
