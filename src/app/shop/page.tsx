@@ -21,7 +21,7 @@ function page() {
 
 
     useEffect(() => {
-        const collections = ['dresses', 'coords', 'tops', 'bottoms'];
+        const collections = ['dresses', 'tops', 'coords', 'bottoms'];
         const unsubscribeFunctions: any = [];
 
         collections.forEach((c) => {

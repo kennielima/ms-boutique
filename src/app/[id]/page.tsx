@@ -2,8 +2,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
-import wish from '@/images/wishes.svg';
-import wishes from '@/images/wishess.svg';
+import wishes from '@/images/wishes.svg';
+import wishess from '@/images/wishess.svg';
 import caret from '@/images/caret.svg';
 import { doc, getDoc } from "firebase/firestore";
 import { db } from '@/components/firebase';
@@ -16,10 +16,10 @@ function page() {
     const [dimension, setDimension] = useState(false)
     const [sku, setSku] = useState(false)
     const [category, setCategory] = useState(false)
+    const [categoryN, setCategoryN] = useState('')
     const [liked, setLiked] = useState(false)
-
     // const [ITEM, setITEM] = useState<latests | undefined>(undefined);
-    // const [ITEM, setITEM] = useState<latests>({ dress: '', id: '', image: '', price: 0 });
+    // const [ITEM, setITEM] = useState<latests>({id: '', price: 0, dress: '', image: ''});
     const [ITEM, setITEM] = useState<any>(null);
     const [size, setSize] = useState<string>('small')
     const [color, setColor] = useState<string>('blue')
@@ -28,22 +28,28 @@ function page() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const docRefs = [
-                doc(db, 'latestdress', dress),
-                doc(db, 'topsellers', dress),
-                doc(db, 'dresses', dress),
-                doc(db, 'tops', dress),
-                doc(db, 'bottoms', dress),
-                doc(db, 'coords', dress),
+            const categoryName = ['latestdress', 'topsellers', 'dresses', 'tops', 'bottoms', 'coords']
+            for (let category of categoryName) {
+                const docRef = doc(db, category, dress)
 
-        ]
-        for (const docRef of docRefs){
-            const docSnap = await getDoc(docRef);
-                docSnap.exists() && setITEM(docSnap.data())
-        }
-        // const docRef2 = doc(db, 'topsellers', dress);
-        //     const docSnap2 = await getDoc(docRef2);
-            // docSnap.exists() ? setITEM(docSnap.data()) :)
+                //     const docRefs = [
+                //         doc(db, 'latestdress', dress),
+                //         doc(db, 'topsellers', dress),
+                //         doc(db, 'dresses', dress),
+                //         doc(db, 'tops', dress),
+                //         doc(db, 'bottoms', dress),
+                //         doc(db, 'coords', dress),
+                // ]
+                // for (const docRef of docRefs){
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    setITEM(docSnap.data());
+                    setCategoryN(category)
+                }
+                // }
+            }
+            // const docRef2 = doc(db, 'topsellers', dress);
+            //     const docSnap = await getDoc(docRef);
         }
         fetchData();
     }, [dress]);
@@ -63,6 +69,10 @@ function page() {
         // console.log('cart');
     };
 
+    const wish = liked ? 'images/wishes.svg' : 'images/wishess.svg'
+    // liked ? addWish(cartinfo) : removeWish(cartinfo);
+
+
     return (
         <section>
             {ITEM && (
@@ -77,72 +87,72 @@ function page() {
                     <div className='w-3/4 lg:w-1/2 p-4'>
                         <h1 className='text-4xl'>{ITEM.dress}</h1>
                         <div className='flex gap-6 mt-4 text-xl font-normal'>
-                            <p className='text-slate-500'>${ITEM.price}</p>
+                            <p className='text-red-300'>${ITEM.price}</p>
                             <p className='text-slate-700'>In Stock</p>
                         </div>
-                        <div className='my-8 text-xl'>
+                        <div className='mt-16 text-lg'>
                             <p className='font-normal'>
                                 <span className='text-slate-500'>Color: </span>
-                                <span className='text-slate-700'>Blue</span>
+                                <span className='text-slate-700'>{color}</span>
                             </p>
                             <div className='flex mt-4 gap-3'>
                                 <button
-                                    className={color === 'blue' ? 'rounded-full bg-slate-800 text-white py-3 px-8'
+                                    className={color === 'blue' ? 'rounded-full bg-slate-800 text-white py-2 px-6'
                                         :
-                                        'bg-white text-slate-500 border-slate-400 border-[1px] rounded-full py-3 px-8'}
+                                        'bg-white text-slate-500 border-slate-400 border-[1px] rounded-full py-2 px-6'}
                                     onClick={() => setColor('blue')}>
                                     Blue
                                 </button>
                                 <button
                                     className={color === 'white' ?
-                                        'bg-slate-900 text-white rounded-full py-3 px-8'
+                                        'bg-slate-900 text-white rounded-full py-2 px-6'
                                         :
-                                        'rounded-full bg-white text-slate-500 border-slate-400 border-[1px] py-3 px-8'}
+                                        'rounded-full bg-white text-slate-500 border-slate-400 border-[1px] py-2 px-6'}
                                     onClick={() => setColor('white')}>
                                     White
                                 </button>
                             </div>
-                            <div className='my-8 text-lg'>
-                                <p className='font-normal text-slate-500'>Size</p>
+                            <div className='my-6 text-lg'>
+                                <p className='font-normal text-slate-500'>Size: {size}</p>
                                 <div className='flex mt-4 gap-3'>
                                     <button
                                         type="submit"
                                         className={size === 'small' ?
-                                            'rounded-full bg-slate-800 text-white py-3 px-6'
+                                            'rounded-full bg-slate-800 text-white py-2 px-6'
                                             :
-                                            'rounded-full bg-white text-slate-500 border-slate-400 border-[1px] py-3 px-6'}
+                                            'rounded-full bg-white text-slate-500 border-slate-400 border-[1px] py-2 px-6'}
                                         onClick={() => setSize('small')}>
                                         Small
                                     </button>
                                     <button
                                         className={size === 'medium' ?
-                                            'rounded-full bg-slate-800 text-white py-3 px-6'
+                                            'rounded-full bg-slate-800 text-white py-2 px-6'
                                             :
-                                            'rounded-full bg-white text-slate-500 border-slate-400 border-[1px] py-3 px-6'}
+                                            'rounded-full bg-white text-slate-500 border-slate-400 border-[1px] py-2 px-6'}
                                         onClick={() => setSize('medium')}>
                                         Medium
                                     </button>
                                     <button
                                         className={size === 'large' ?
-                                            'rounded-full bg-slate-800 text-white py-3 px-6'
+                                            'rounded-full bg-slate-800 text-white py-2 px-6'
                                             :
-                                            'rounded-full bg-white text-slate-500 border-slate-400 border-[1px] py-3 px-6'}
+                                            'rounded-full bg-white text-slate-500 border-slate-400 border-[1px] py-2 px-6'}
                                         onClick={() => setSize('large')}>
                                         Large
                                     </button>
                                 </div>
                             </div>
-                            <div className='my-8 text-lg'>
+                            <div className='my-6 text-lg'>
                                 <p className='font-normal text-slate-500'>Quantity</p>
                                 <div className='flex mt-4 gap-3'>
-                                    <button className='rounded-full bg-white text-slate-800 border-slate-400 border-[1px] py-2 px-4 flex gap-6 text-2xl'>
+                                    <button className='rounded-full bg-white text-slate-800 border-slate-400 border-[1px] py-1 px-3 flex gap-5 text-2xl'>
                                         <span onClick={() => setQuantity(quantity - 1)}>-</span>
                                         <span>{quantity}</span>
                                         <span onClick={() => setQuantity(quantity + 1)}>+</span>
                                     </button>
                                 </div>
                             </div>
-                            <div className='flex my-8 gap-8 items-center'>
+                            <div className='flex mt-8 mb-10 gap-8 items-center'>
                                 <button
                                     className='rounded-full bg-slate-800 text-white p-3 w-48 hover:bg-slate-100 hover:text-slate-500 hover:border-slate-400 hover:border-[1px] transition-all'
                                     onClick={() => saveDetails()}
@@ -153,7 +163,7 @@ function page() {
                                     Buy It Now
                                 </button>
                                 <Image
-                                    src={liked ? wishes : wish}
+                                    src={liked ? wishess : wishes}
                                     onClick={() => setLiked(!liked)}
                                     alt='love'
                                     height={50}
@@ -163,8 +173,23 @@ function page() {
                             </div>
                         </div>
                         <hr className='border-slate-400' />
-                        <div className='my-6 text-lg font-light w-full text-black pr-2'>
-                            <div className='flex justify-between '>
+                        <div className='my-4 text-lg font-light text-black pr-2'>
+                            <div className='flex justify-between'>
+                                <p>Category</p>
+                                <Image
+                                    className={category ? 'rotate-180' : ''}
+                                    src={caret}
+                                    onClick={() => setCategory(!category)}
+                                    alt="caret"
+                                    height={10}
+                                    width={15}
+                                />
+                            </div>
+                            {category && <div className='mt-3 text-red-300'>{categoryN}</div>}
+                        </div>
+                        <hr className='border-slate-400' />
+                        <div className='my-4 text-lg font-light w-full text-black pr-2'>
+                            <div className='flex justify-between'>
                                 <p>Shipping and Returns</p>
                                 <Image src={caret}
                                     className={ship ? 'rotate-180' : ''}
@@ -174,10 +199,10 @@ function page() {
                                     width={15}
                                 />
                             </div>
-                            {ship && <div className='mt-4 text-slate-500'>Please, read Shipping and Return Policy.</div>}
+                            {ship && <div className='mt-3 text-slate-500'>Please, read Shipping and Return Policy.</div>}
                         </div>
                         <hr className='border-slate-400' />
-                        <div className='my-6 text-lg font-light text-black pr-2'>
+                        <div className='my-4 text-lg font-light text-black pr-2'>
                             <div className='flex justify-between '>
                                 <p>Dimensions</p>
                                 <Image src={caret}
@@ -188,10 +213,10 @@ function page() {
                                     width={15}
                                 />
                             </div>
-                            {dimension && <div className='mt-4 text-slate-500'>5 × 5 × 3 in</div>}
+                            {dimension && <div className='mt-3 text-slate-500'>5 × 5 × 3 in</div>}
                         </div>
                         <hr className='border-slate-400' />
-                        <div className='my-6 text-lg font-light text-black pr-2'>
+                        <div className='my-4 text-lg font-light text-black pr-2'>
                             <div className='flex justify-between'>
                                 <p>SKU</p>
                                 <Image
@@ -203,24 +228,10 @@ function page() {
                                     width={15}
                                 />
                             </div>
-                            {sku && <div className='mt-4 text-slate-500'>IMK8945T</div>}
+                            {sku && <div className='mt-3 text-slate-500'>IMK{ Math.floor(Math.random() * (9999))}T</div>}
                         </div>
                         <hr className='border-slate-400' />
-                        <div className='my-6 text-lg font-light text-black pr-2'>
-                            <div className='flex justify-between '>
-                                <p>Category</p>
-                                <Image
-                                    className={category ? 'rotate-180' : ''}
-                                    src={caret}
-                                    onClick={() => setCategory(!category)}
-                                    alt="caret"
-                                    height={10}
-                                    width={15}
-                                />
-                            </div>
-                            {category && <div className='mt-4 text-red-400'>Tops</div>}
-                        </div>
-                        <hr className='border-slate-400' />
+
                     </div>
                 </div>
             )}
