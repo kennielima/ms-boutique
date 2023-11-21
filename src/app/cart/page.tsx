@@ -9,6 +9,8 @@ import Link from 'next/link';
 
 function page() {
     const ctx = useContext(cartContext);
+    let cartinfo: detail;
+
     // console.log(ctx.cart);
 
     return (
@@ -43,7 +45,7 @@ function page() {
                             </Link>
                             <div className='grid'>
                                 <Link href={`/${item.ITEM.id}`}>
-                                    <h2 className='md:w-48 text-lg'>{item.ITEM.dress}</h2>
+                                    <h2 className='md:w-48 text-lg hover:underline'>{item.ITEM.dress}</h2>
                                 </Link>
                                 <div className='w-fit text-red-300 text-sm flex justify-between md:gap-12 gap-3 md:mt-3'>
                                     <p className='border-[0.5px] rounded-xl p-1 border-red-300'>{item.color}</p>
@@ -63,7 +65,7 @@ function page() {
                                     <span onClick={() => { }}>+</span>
                                 </button>
                                 <button className='w-fit rounded-full p-2 border-slate-400 border-[1px]'>
-                                    <Image src={bin} alt='' height={15} width={15} />
+                                    <Image src={bin} onClick={()=> ctx.removeCart(cartinfo)} alt='' height={15} width={15} />
                                 </button>
 
                             </div>

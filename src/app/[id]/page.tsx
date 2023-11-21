@@ -64,8 +64,8 @@ function page() {
     // console.log(cartinfo);
 
     const saveDetails = () => {
-        let cart = cartinfo;
-        addCart(cart);
+        addCart(cartinfo);
+        // alert('added to cart!');
         // console.log('cart');
     };
 
