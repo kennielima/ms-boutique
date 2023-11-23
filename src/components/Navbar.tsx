@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import logo from '@/images/logo.svg';
 import caret from '@/images/caret.svg';
@@ -9,6 +9,7 @@ import nav from '@/images/nav.svg';
 import close from '@/images/close.svg';
 import search from '@/images/search.svg';
 import Link from "next/link";
+import { cartContext } from '@/components/ContextProvider';
 // import gsap from 'gsap';
 // import { ScrollTrigger } from "gsap/ScrollTrigger";
 // gsap.registerPlugin(ScrollTrigger);
@@ -16,6 +17,7 @@ import Link from "next/link";
 export default function Navbar() {
     const [open, setOpen] = useState(false)
     const [openShop, setOpenShop] = useState(false)
+    const ctx = useContext(cartContext);
 
     const closeAll = () => {
         open && setOpen(!open);
@@ -119,7 +121,7 @@ export default function Navbar() {
                             <div className="flex">
                                 <Image className="flex md:hidden" src={wish} alt="wish" height={20} width={20} />
                                 <span className="hidden md:flex">Wishlist</span>
-                                <span className="bg-slate-800 rounded-full ml-[-8px] md:ml-2 mb-8 md:mb-0 text-slate-100 px-2"> 0 </span>
+                                <span className="bg-slate-800 rounded-full ml-[-8px] md:ml-2 mb-8 md:mb-0 text-slate-100 px-2"> {ctx.wishtotal} </span>
                             </div>
                         </Link>
 
@@ -134,7 +136,7 @@ export default function Navbar() {
                             <div className="flex">
                                 <Image className="flex md:hidden" src={cart} alt="cart" height={20} width={20} />
                                 <span className="hidden md:flex">Cart</span>
-                                <span className="bg-slate-800 rounded-full  md:ml-2 ml-[-8px] mb-8 md:mb-0 text-slate-100 px-2"> 0 </span>
+                                <span className="bg-slate-800 rounded-full  md:ml-2 ml-[-8px] mb-8 md:mb-0 text-slate-100 px-2"> {ctx.total} </span>
                             </div>
                         </Link>
                         {/* navbars */}

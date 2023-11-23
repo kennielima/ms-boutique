@@ -24,7 +24,8 @@ function page() {
     const [size, setSize] = useState<string>('small')
     const [color, setColor] = useState<string>('blue')
     const [quantity, setQuantity] = useState<number>(1)
-    const { addCart, removeCart } = useContext(cartContext);
+    const { addCart } = useContext(cartContext);
+    const { addWish, removeWish } = useContext(cartContext);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -69,8 +70,8 @@ function page() {
         // console.log('cart');
     };
 
-    const wish = liked ? 'images/wishes.svg' : 'images/wishess.svg'
-    // liked ? addWish(cartinfo) : removeWish(cartinfo);
+    // const wish = liked ? 'images/wishes.svg' : 'images/wishess.svg'
+    liked ? addWish(cartinfo) : removeWish(cartinfo);
 
 
     return (

@@ -57,12 +57,12 @@ function page() {
                                 <p className='text-slate-500 text-lg md:-ml-5'>${item.ITEM.price}</p>
                                 <p className='flex md:hidden text-xl text-right pr-4 md:pr-0'>$35.89</p>
                             </div>
-                            <div className='flex gap-6'>
-                                <button className='w-fit rounded-full bg-white text-slate-800 border-slate-400 border-[1px] py-1 px-3 flex gap-4 md:gap-6'>
-                                    <span onClick={() => { }}>-</span>
+                            <div className='flex md:-ml-16 gap-6'>
+                                <button className='w-fit rounded-full bg-white text-slate-800 border-slate-400 border-[1px] py-1 px-3  flex gap-4 md:gap-6'>
+                                    {/* <span onClick={() => { }}>-</span> */}
                                     {/* <input type='number' min='1' className='w-fit' value={item.quantity}/> */}
                                     <span>{item.quantity}</span>
-                                    <span onClick={() => { }}>+</span>
+                                    {/* <span onClick={() => { }}>+</span> */}
                                 </button>
                                 <button className='w-fit rounded-full p-2 border-slate-400 border-[1px]'>
                                     <Image src={bin} onClick={()=> ctx.removeCart(cartinfo)} alt='' height={15} width={15} />
