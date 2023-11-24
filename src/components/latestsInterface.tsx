@@ -9,5 +9,6 @@ export interface detail {
     ITEM: latests,
     color: string,
     size: string,
-    quantity: number
+    quantity: number,
+    
 }

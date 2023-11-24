@@ -1,16 +1,4 @@
-// import React from 'react'
 
-// function page() {
-//     return (
-//     <div className='w-[85%] mx-auto my-20 grid gap-8 text-slate-800'>
-//     <h1 className='text-3xl sm:text-4xl'>Liked Products</h1>
-//     <hr className='border-red-300 border-2' />
-//     <p className='text-sm sm:text-xl'>No products added to the wishlist.</p>
-// </div>
-//     )
-// }
-
-// export default page
 
 "use client"
 import Image from 'next/image'
@@ -23,6 +11,16 @@ import Link from 'next/link';
 function page() {
     const ctx = useContext(cartContext);
     let cartinfo: detail;
+
+    const removeitem = (c: detail): void => {
+        cartinfo = {
+            ITEM: c.ITEM,
+            color: c.color,
+            size: c.size,
+            quantity: c.quantity,
+        };
+        ctx.removeWish(cartinfo)
+    };
 
     return (
         <div className='w-[85%] mx-auto my-20 grid gap-8 px-4 text-slate-800'>
@@ -61,15 +59,6 @@ function page() {
                             </div>
                             <div className='flex justify-between'>
                                 <p className='text-slate-500 text-lg md:-ml-5'>${item.ITEM.price}</p>
-                            </div>
-                            <div className='flex md:-ml-16 gap-6'>
-                                <button className='w-fit rounded-full bg-white text-slate-800 border-slate-400 border-[1px] py-1 px-3 flex gap-4 md:gap-6'>
-                                    <span>{item.quantity}</span>
-                                </button>
-                                <button className='w-fit rounded-full p-2 border-slate-400 border-[1px]'>
-                                    <Image src={bin} onClick={()=> ctx.removeWish(cartinfo)} alt='' height={15} width={15} />
-                                </button>
-
                             </div>
                         </div>
                     )}

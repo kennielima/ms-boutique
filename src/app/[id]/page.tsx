@@ -8,7 +8,7 @@ import caret from '@/images/caret.svg';
 import { doc, getDoc } from "firebase/firestore";
 import { db } from '@/components/firebase';
 import { cartContext } from '@/components/ContextProvider';
-import { detail, latests } from '@/components/latestsInterface';
+import { detail } from '@/components/latestsInterface';
 
 function page() {
     const dress = decodeURIComponent(useParams()?.id as any);
@@ -47,9 +47,8 @@ function page() {
                     setITEM(docSnap.data());
                     setCategoryN(category)
                 }
-                // }
             }
-            // const docRef2 = doc(db, 'topsellers', dress);
+            // const docRef = doc(db, 'topsellers', dress);
             //     const docSnap = await getDoc(docRef);
         }
         fetchData();
@@ -62,15 +61,15 @@ function page() {
         size: size,
         quantity: quantity,
     };
-    // console.log(cartinfo);
 
     const saveDetails = () => {
         addCart(cartinfo);
         // alert('added to cart!');
-        // console.log('cart');
     };
 
-    // const wish = liked ? 'images/wishes.svg' : 'images/wishess.svg'
+    const like = () => {
+        setLiked(!liked)
+    }
     liked ? addWish(cartinfo) : removeWish(cartinfo);
 
 
@@ -165,7 +164,7 @@ function page() {
                                 </button>
                                 <Image
                                     src={liked ? wishess : wishes}
-                                    onClick={() => setLiked(!liked)}
+                                    onClick={like}
                                     alt='love'
                                     height={50}
                                     width={50}

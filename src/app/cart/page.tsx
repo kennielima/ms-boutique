@@ -1,6 +1,6 @@
 "use client"
 import Image from 'next/image'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import cartimg from '@/images/cart.svg';
 import { cartContext } from '@/components/ContextProvider';
 import bin from '@/images/bin.svg';
@@ -11,7 +11,15 @@ function page() {
     const ctx = useContext(cartContext);
     let cartinfo: detail;
 
-    // console.log(ctx.cart);
+    const deleteitem = (c: detail): void => {
+        cartinfo = {
+            ITEM: c.ITEM,
+            color: c.color,
+            size: c.size,
+            quantity: c.quantity,
+        };
+        ctx.removeCart(cartinfo)
+    };
 
     return (
         <div className='w-[85%] mx-auto my-20 grid gap-8 px-4 text-slate-800'>
@@ -39,7 +47,7 @@ function page() {
                     </div>
 
                     {ctx.cart.map((item) =>
-                        <div className='w-auto grid md:flex md:justify-between gap-4 md:gap-0 items-center mb-8'>
+                        <div className='w-auto grid md:flex md:justify-between gap-4 md:gap-0 items-center md:mb-8'>
                             <Link href={`/${item.ITEM.id}`}>
                                 <Image src={item.ITEM.image} alt='' height={120} width={120} />
                             </Link>
@@ -55,7 +63,7 @@ function page() {
                             </div>
                             <div className='flex justify-between'>
                                 <p className='text-slate-500 text-lg md:-ml-5'>${item.ITEM.price}</p>
-                                <p className='flex md:hidden text-xl text-right pr-4 md:pr-0'>$35.89</p>
+                                <p className='flex md:hidden text-xl text-right pr-4 md:pr-0'>${(item.quantity * item.ITEM.price).toFixed(2)}</p>
                             </div>
                             <div className='flex md:-ml-16 gap-6'>
                                 <button className='w-fit rounded-full bg-white text-slate-800 border-slate-400 border-[1px] py-1 px-3  flex gap-4 md:gap-6'>
@@ -65,16 +73,16 @@ function page() {
                                     {/* <span onClick={() => { }}>+</span> */}
                                 </button>
                                 <button className='w-fit rounded-full p-2 border-slate-400 border-[1px]'>
-                                    <Image src={bin} onClick={()=> ctx.removeCart(cartinfo)} alt='' height={15} width={15} />
+                                    <Image src={bin} onClick={() => deleteitem(item)} alt='' height={15} width={15} />
                                 </button>
 
                             </div>
-                            <p className='hidden md:flex text-xl text-right pr-4 md:pr-0'>$35.89</p>
+                            <p className='hidden md:flex text-xl text-right pr-4 md:pr-0'>${(item.quantity * item.ITEM.price).toFixed(2)}</p>
                         </div>
                     )}
                     <div>
                         <hr className='flex border-red-200 border-2 my-8' />
-                        <p className='text-xl text-right pr-4 md:pr-0'>$35.89</p>
+                        <p className='text-xl text-right pr-4 md:pr-0'>${ctx.totalprice.toFixed(2)}</p>
                     </div>
                 </div>
             )}

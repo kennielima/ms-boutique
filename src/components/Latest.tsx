@@ -3,27 +3,21 @@ import Image from 'next/image';
 import 'swiper/swiper-bundle.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { collection, doc, onSnapshot, query, setDoc } from "firebase/firestore";
 import { db } from './firebase';
 import Link from 'next/link';
-import { latests } from './latestsInterface';
+import { latests, detail } from './latestsInterface';
+import { cartContext } from './ContextProvider';
 
 // let LATEST: {image: any, dress: string}[];
 // let LATEST: (latest)[];
-// type latests = {
-//     dress: string,
-//     image: string,
-//     price: number,
-//     id: string
-// }
-
-
 // let Latests: (a: latest) => void
+
 function Latest() {
     const breakpoints = {
         480: {
-            slidesPerView: 1,
+            slidesPerView: 2,
         },
         768: {
             slidesPerView: 3,
@@ -32,17 +26,27 @@ function Latest() {
             slidesPerView: 4,
         }
     };
-
+    const {addWish, removeWish} = useContext(cartContext);
     const [LATEST, setLATEST] = useState<latests[]>([]);
     const [TOPSELL, setTOPSELL] = useState<latests[]>([]);
     const [likedItems, setLikedItems] = useState(LATEST.map(() => false));
+
+    let cartinfo: detail;
 
     const toggleLike = (index: number) => {
         const newLikedItems = [...likedItems];
         newLikedItems[index] = !newLikedItems[index];
         setLikedItems(newLikedItems);
         console.log(likedItems)
+        // cartinfo = {
+        //     ITEM: ITEM,
+        //     color: color,
+        //     size: size,
+        //     quantity: quantity,
+        // };
+    likedItems[index] ? addWish(cartinfo) : removeWish(cartinfo);
     };
+
 
 
     useEffect(() => {

@@ -35,7 +35,7 @@ export default function Footer() {
                     <p className='font-light text-sm my-2'>+1(706) 824-8282</p>
                     <p>Email: <span className='font-light'>contact@mystorybtq.com</span></p>
                     <div className='flex sm:hidden py-4 gap-4'>
-                        <Image className="rounded-full bg-grey opacity-60" src={fbk} alt='img' height={30} width={30} />
+                        <Image className="rounded-full opacity-60" src={fbk} alt='img' height={20} width={30} />
                         <Image className="rounded-full opacity-60" src={yt} alt='img' height={30} width={30} />
                         <Image className="rounded-full opacity-60" src={watsapp} alt='img' height={30} width={30} />
                     </div>

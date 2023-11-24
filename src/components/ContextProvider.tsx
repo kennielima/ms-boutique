@@ -1,10 +1,11 @@
 'use client'
-import React, { ReactNode, createContext, useEffect, useReducer, useState } from 'react'
+import React, { ReactNode, createContext, useEffect, useState } from 'react'
 import { detail } from './latestsInterface';
 
 type cartContextprops = {
     cart: detail[],
     total: number,
+    totalprice: number,
     addCart: (c: detail) => void;
     removeCart: (c: detail) => void;
     wishlist: detail[],
@@ -20,6 +21,7 @@ export const cartContext = createContext({} as cartContextprops);
 export const ContextProvider = ({ children }: { children: ReactNode }) => {
     const [cart, setCart] = useState<detail[]>([])
     const [total, setTotal] = useState(0)
+    const [totalprice, setTotalprice] = useState(0)
     const [wishlist, setWishlist] = useState<detail[]>([])
     const [wishtotal, setWishtotal] = useState(0)
 
@@ -32,9 +34,12 @@ export const ContextProvider = ({ children }: { children: ReactNode }) => {
     // }, [])
 
     const addCart = (c: detail) => {
-        let itemexist = false;
-        const totalc = cart.reduce((sum, carrt: detail) => sum + carrt.quantity, c.quantity);
-        setTotal(totalc)
+        const totalquantity = cart.reduce((sum, carrt: detail) => sum + carrt.quantity, c.quantity);
+        setTotal(totalquantity)
+
+        const totalprice = cart.reduce((sum, carrt: detail) => sum + carrt.ITEM.price * carrt.quantity, c.ITEM.price * c.quantity);
+        setTotalprice(totalprice);
+
         for (let carrt of cart) {
             if (carrt.ITEM.id === c.ITEM.id && carrt.color === c.color && carrt.size === c.size) {
                 setCart((prevCart) =>
@@ -43,28 +48,28 @@ export const ContextProvider = ({ children }: { children: ReactNode }) => {
                             ? { ...item, quantity: item.quantity + c.quantity }
                             : item
                     ));
-                itemexist = true;
                 return;
             }
         }
-        !itemexist && setCart([...cart, c])
-        //     if (!itemexist) {
-        //         setCart((prevCart) => {
-        //           const updatedCart = [...prevCart, c];
-        //           localStorage.setItem('added', JSON.stringify(updatedCart));
-        //           return updatedCart;
-        //         });
-        //       }
+        setCart([...cart, c])
+
+        // localStorage.setItem('added', JSON.stringify(updatedCart));
+        // return updatedCart;
     };
 
     const removeCart = (c: detail) => {
-        setCart(cart =>
-            cart.filter((carrt) => carrt && carrt.ITEM && carrt.color && carrt.size && c && c.ITEM && c.color && c.size && (c.ITEM.id !== carrt.ITEM.id || c.color !== carrt.color || c.size !== carrt.size)))
+        setCart(cart.filter((carrt) =>
+            carrt.ITEM.id !== c.ITEM.id || carrt.color !== c.color || carrt.size !== c.size
+        ))
+        let newTotal = total - c.quantity;
+        setTotal(newTotal)
+        let newtotalprice = totalprice - (c.quantity * c.ITEM.price)
+        setTotalprice(newtotalprice)
     }
 
     const addWish = (w: detail) => {
-        // const totalw = wishlist.reduce((sum, item: detail) => sum + item.quantity, w.quantity);
-        // setWishtotal(totalw)
+        const totalw = wishlist.reduce((sum, item: detail) => sum + item.quantity, w.quantity);
+        setWishtotal(totalw)
 
         // for (let wishh of wishlist) {
         //     if (wishh.ITEM.id === w.ITEM.id && wishh.color === w.color && wishh.size === w.size) {
@@ -78,9 +83,13 @@ export const ContextProvider = ({ children }: { children: ReactNode }) => {
         //     }
         // }
         // setWishlist([...wishlist, w])
+        console.log(wishlist)
     }
-        // console.log(wishlist)
     const removeWish = (w: detail) => {
+        // let newTotal = wishtotal - 1;
+        // setWishtotal(newTotal)
+        console.log('remove')
+
         // setWishlist(wishlist =>
         //     wishlist.filter((wishh) => wishh && wishh.ITEM && wishh.color && wishh.size && w && w.ITEM && w.color && w.size && (w.ITEM.id !== wishh.ITEM.id || w.color !== wishh.color || w.size !== wishh.size)))
     }
@@ -89,7 +98,8 @@ export const ContextProvider = ({ children }: { children: ReactNode }) => {
     return (
         <cartContext.Provider value={{
             cart, total, addCart, removeCart,
-            wishlist, wishtotal, addWish, removeWish
+            wishlist, wishtotal, addWish, removeWish,
+            totalprice
         }}
         >
             {children}
