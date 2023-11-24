@@ -68,8 +68,8 @@ export const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const addWish = (w: detail) => {
-        const totalw = wishlist.reduce((sum, item: detail) => sum + item.quantity, w.quantity);
-        setWishtotal(totalw)
+        // const totalw = wishlist.reduce((sum, item: detail) => sum + item.quantity, w.quantity);
+        // setWishtotal(totalw)
 
         // for (let wishh of wishlist) {
         //     if (wishh.ITEM.id === w.ITEM.id && wishh.color === w.color && wishh.size === w.size) {
