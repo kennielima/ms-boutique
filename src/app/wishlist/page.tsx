@@ -2,25 +2,26 @@
 
 "use client"
 import Image from 'next/image'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { cartContext } from '@/components/ContextProvider';
 import bin from '@/images/bin.svg';
 import { detail } from '@/components/latestsInterface';
 import Link from 'next/link';
+import wishes from '@/images/wishes.svg';
+import wishess from '@/images/wishess.svg';
 
 function page() {
     const ctx = useContext(cartContext);
-    let cartinfo: detail;
 
-    const removeitem = (c: detail): void => {
-        cartinfo = {
+    const deleteitem = (c: detail) => {
+        let cartinfo = {
             ITEM: c.ITEM,
             color: c.color,
             size: c.size,
             quantity: c.quantity,
         };
-        ctx.removeWish(cartinfo)
-    };
+        ctx.removeWish(cartinfo);
+    }
 
     return (
         <div className='w-[85%] mx-auto my-20 grid gap-8 px-4 text-slate-800'>
@@ -39,27 +40,18 @@ function page() {
                         </Link>
                     </div>
                     <hr className='border-red-300 border-2' />
-                    <div className='hidden md:flex justify-between text-xl text-slate-600 mb-8'>
-                        <p>Product</p>
-                        <p className='ml-16'>Dress</p>
-                        <p className='ml-6'>Price</p>
-                        <p>Quantity</p>
-                    </div>
-                    {ctx.wishlist.map((item) =>
 
-                        <div className='w-auto grid md:flex md:justify-between gap-4 md:gap-0 items-center mb-8'>
-                            <Image src={item.ITEM.image} alt='' height={120} width={120} />
-                            <div className='grid'>
+                    {ctx.wishlist.map((item) =>
+                        <div className='w-auto grid gap-2 mb-8'>
+                            <Image src={item.ITEM.image} alt='' height={300} width={300} />
+                            <div className='flex gap-8'>
                                 <h2 className='md:w-48 text-lg'>{item.ITEM.dress}</h2>
-                                <div className='w-fit text-red-300 text-sm flex justify-between md:gap-12 gap-3 md:mt-3'>
-                                    <p className='border-[0.5px] rounded-xl p-1 border-red-300'>{item.color}</p>
-                                    <p className='border-[0.5px] rounded-xl p-1
-                                    border-red-300'>{item.size}</p>
-                                </div>
+                                <Image 
+                                className='border-[0.5px] rounded-full border-slate-500 p-1'
+                                src={bin} 
+                                onClick={() => deleteitem(item)} alt='' height={30} width={30} />
                             </div>
-                            <div className='flex justify-between'>
-                                <p className='text-slate-500 text-lg md:-ml-5'>${item.ITEM.price}</p>
-                            </div>
+                            <p className='text-slate-500 text-lg'>${item.ITEM.price}</p>
                         </div>
                     )}
                 </div>

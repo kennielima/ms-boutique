@@ -68,32 +68,18 @@ export const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const addWish = (w: detail) => {
-        // const totalw = wishlist.reduce((sum, item: detail) => sum + item.quantity, w.quantity);
-        // setWishtotal(totalw)
-
-        // for (let wishh of wishlist) {
-        //     if (wishh.ITEM.id === w.ITEM.id && wishh.color === w.color && wishh.size === w.size) {
-        //         setWishlist((prev) =>
-        //             prev.map(item =>
-        //                 (item.ITEM.id === wishh.ITEM.id && item.color === wishh.color && item.size === wishh.size)
-        //                     ? { ...item, quantity: item.quantity + w.quantity }
-        //                     : item
-        //             ));
-        //         return;
-        //     }
-        // }
-        // setWishlist([...wishlist, w])
-        console.log(wishlist)
+        const totalw =  wishtotal + 1;
+        setWishtotal(totalw)
+        setWishlist([...wishlist, w])
     }
+
     const removeWish = (w: detail) => {
-        // let newTotal = wishtotal - 1;
-        // setWishtotal(newTotal)
-        console.log('remove')
-
-        // setWishlist(wishlist =>
-        //     wishlist.filter((wishh) => wishh && wishh.ITEM && wishh.color && wishh.size && w && w.ITEM && w.color && w.size && (w.ITEM.id !== wishh.ITEM.id || w.color !== wishh.color || w.size !== wishh.size)))
+        setWishlist(wishlist.filter((wish) =>
+        wish.ITEM.id !== w.ITEM.id
+    ))
+        let newTotal = wishtotal - 1;
+        setWishtotal(newTotal)
     }
-
 
     return (
         <cartContext.Provider value={{

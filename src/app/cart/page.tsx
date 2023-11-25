@@ -47,7 +47,7 @@ function page() {
                     </div>
 
                     {ctx.cart.map((item) =>
-                        <div className='w-auto grid md:flex md:justify-between gap-4 md:gap-0 items-center md:mb-8'>
+                        <div className='w-auto grid md:flex md:justify-between gap-4 md:gap-0 items-center mb-8 md:mb-0'>
                             <Link href={`/${item.ITEM.id}`}>
                                 <Image src={item.ITEM.image} alt='' height={120} width={120} />
                             </Link>
@@ -67,10 +67,7 @@ function page() {
                             </div>
                             <div className='flex md:-ml-16 gap-6'>
                                 <button className='w-fit rounded-full bg-white text-slate-800 border-slate-400 border-[1px] py-1 px-3  flex gap-4 md:gap-6'>
-                                    {/* <span onClick={() => { }}>-</span> */}
-                                    {/* <input type='number' min='1' className='w-fit' value={item.quantity}/> */}
                                     <span>{item.quantity}</span>
-                                    {/* <span onClick={() => { }}>+</span> */}
                                 </button>
                                 <button className='w-fit rounded-full p-2 border-slate-400 border-[1px]'>
                                     <Image src={bin} onClick={() => deleteitem(item)} alt='' height={15} width={15} />

@@ -24,36 +24,23 @@ function page() {
     const [size, setSize] = useState<string>('small')
     const [color, setColor] = useState<string>('blue')
     const [quantity, setQuantity] = useState<number>(1)
-    const { addCart } = useContext(cartContext);
-    const { addWish, removeWish } = useContext(cartContext);
+    const { addCart, addWish, removeWish } = useContext(cartContext);
+    let wishimg = liked ? '/images/wishess.svg' : '@/images/wishes.svg'
 
     useEffect(() => {
         const fetchData = async () => {
             const categoryName = ['latestdress', 'topsellers', 'dresses', 'tops', 'bottoms', 'coords']
             for (let category of categoryName) {
                 const docRef = doc(db, category, dress)
-
-                //     const docRefs = [
-                //         doc(db, 'latestdress', dress),
-                //         doc(db, 'topsellers', dress),
-                //         doc(db, 'dresses', dress),
-                //         doc(db, 'tops', dress),
-                //         doc(db, 'bottoms', dress),
-                //         doc(db, 'coords', dress),
-                // ]
-                // for (const docRef of docRefs){
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     setITEM(docSnap.data());
                     setCategoryN(category)
                 }
             }
-            // const docRef = doc(db, 'topsellers', dress);
-            //     const docSnap = await getDoc(docRef);
         }
         fetchData();
     }, [dress]);
-    // console.log(ITEM);
 
     let cartinfo: detail = {
         ITEM: ITEM,
@@ -68,10 +55,12 @@ function page() {
     };
 
     const like = () => {
-        setLiked(!liked)
-    }
-    liked ? addWish(cartinfo) : removeWish(cartinfo);
-
+        setLiked((prevLiked) => {
+            const newState = !prevLiked;
+            newState ? addWish(cartinfo) : removeWish(cartinfo);
+            return newState;
+          });
+        }
 
     return (
         <section>
@@ -163,7 +152,7 @@ function page() {
                                     Buy It Now
                                 </button>
                                 <Image
-                                    src={liked ? wishess : wishes}
+                                    src={wishimg}
                                     onClick={like}
                                     alt='love'
                                     height={50}

@@ -1,24 +1,34 @@
 "use client"
 import Image from 'next/image'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState, useEffect } from 'react';
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { db } from '@/components/firebase';
 // import Link from 'next/link';
-import { latests } from '@/components/latestsInterface';
+import { latests, detail } from '@/components/latestsInterface';
 import Link from 'next/link';
+import { cartContext } from '@/components/ContextProvider';
 
 function page() {
     const [ALL, setALL] = useState<latests[]>([]);
     const [likedItems, setLikedItems] = useState(ALL.map(() => false));
+    const { addWish, removeWish } = useContext(cartContext);
 
-    const toggleLike = (index: number) => {
-        const newLikedItems = [...likedItems];
-        newLikedItems[index] = !newLikedItems[index];
-        setLikedItems(newLikedItems);
-        console.log(likedItems)
+    const toggleLike = (index: number, item: latests) => {
+
+        setLikedItems((prev) => {
+            const newLikedItems = [...prev];
+            newLikedItems[index] = !newLikedItems[index];
+            let cartinfo: detail = {
+                ITEM: item,
+                color: '',
+                size: '',
+                quantity: 0
+            };
+            newLikedItems[index] ? addWish(cartinfo) : removeWish(cartinfo);
+            return newLikedItems;
+        });
     };
-
 
     useEffect(() => {
         const collections = ['dresses', 'tops', 'coords', 'bottoms'];
@@ -58,22 +68,22 @@ function page() {
                 </div>
             </div>
             <div className='grid grid-cols-fluid my-8 ml-[6rem] sm:ml-16 justify-center'>
-                {ALL.map(({ dress, image, price, id }: latests, index) => (
+                {ALL.map((item: latests, index) => (
 
                     <div className='relative mb-4 w-fit'>
-                        <Link href={`${id}`}>
-                            <Image src={image} alt='imgs' height={200} width={200} />
+                        <Link href={`${item.id}`}>
+                            <Image src={item.image} alt='imgs' height={200} width={200} />
                         </Link>
                         <Image
                             src={likedItems[index] ? '/images/wishess.svg' : '/images/wishes.svg'}
-                            onClick={() => toggleLike(index)}
+                            onClick={() => toggleLike(index, item)}
                             alt='love'
                             height={50}
                             width={50}
                             className='h-10 w-10 bg-white p-2 absolute bottom-24 rounded-full left-4'
                         />
-                        <p className='font-light my-2 pr-5'>{dress}</p>
-                        <p className='text-slate-500'>${price}</p>
+                        <p className='font-light my-2 pr-5'>{item.dress}</p>
+                        <p className='text-slate-500'>${item.price}</p>
                     </div>
                 ))}
 
